@@ -1,0 +1,146 @@
+{
+  "__comment_purpose": "Read by build_hess_vti2d_case.py to generate model.mat, source.mat, BC.mat, source/receiver geometry, and run scripts. Rebuild the case after editing this file; existing cases are not updated automatically.",
+  "__comment_case_directory": "Relative paths are resolved against this configuration directory. Absolute paths are also accepted.",
+  "output_case_dir": "generated_cases/hess_vti2d_70pct-6000nt",
+  "hess_model": {
+    "__comment_model_directory": "Directory containing input files such as Hess_rho.mat and Hess_C11.mat. Update this machine-specific path before building. Use forward slashes in Windows JSON paths to avoid backslash escape sequences.",
+    "directory": "D:/1Seimic-Wave/Triton/Hess/Hess_resized_70pct",
+    "__comment_parameterization": "stiffness reads rho, C11, C13, C33, and C44 directly. thomsen reads rho, vp, epsilon, and delta, plus C44 or vs selected by thomsen_shear, then converts to stiffness. The current setting is stiffness.",
+    "parameterization": "stiffness",
+    "__comment_storage_dtype": "Precision of the generated material arrays. float64 uses twice the array storage of float32; this setting is separate from forward.dtype.",
+    "storage_dtype": "float32",
+    "__comment_orientation": "Final arrays must use [z,x] order. transpose swaps the axes; flip_x reverses x; flip_z reverses z. Operations run in this order: transpose, flip_z, flip_x, crop, then stride.",
+    "transpose": false,
+    "flip_x": false,
+    "flip_z": false,
+    "crop": {
+      "__comment_crop": "Python half-open ranges [x_start,x_end) and [z_start,z_end). A null end includes the rest of that axis. The current settings retain the full model.",
+      "x_start": 0,
+      "x_end": null,
+      "z_start": 0,
+      "z_end": null
+    },
+    "stride": {
+      "__comment_stride": "Spatial decimation, not time sampling: 1 keeps every cell; 2 keeps every other cell. The builder multiplies dx and dz by the corresponding strides. Apply spatial low-pass filtering before strong decimation.",
+      "x": 1,
+      "z": 1
+    },
+    "scales": {
+      "__comment_unit_scales": "Input arrays are multiplied by these factors. density and stiffness apply in both parameterizations; velocity applies only in thomsen mode. SI inputs normally use 1.0; use velocity=0.3048 for ft/s to m/s.",
+      "density": 1.0,
+      "stiffness": 1.0,
+      "velocity": 1.0
+    },
+    "__comment_thomsen_shear": "Used only when parameterization=thomsen. C44 reads shear stiffness directly; vs reads shear velocity and computes C44=rho*vs^2. Ignored in stiffness mode.",
+    "thomsen_shear": "C44",
+    "files": {
+      "__comment_file_mapping": "filename identifies the MAT file; variable identifies its internal array. stiffness mode reads only rho, C11, C13, C33, C44, and optional C66. Other mappings are unused in that mode.",
+      "rho": {
+        "filename": "Hess_rho.mat",
+        "variable": "rho"
+      },
+      "C11": {
+        "filename": "Hess_C11.mat",
+        "variable": "c11"
+      },
+      "C13": {
+        "filename": "Hess_C13.mat",
+        "variable": "c13"
+      },
+      "C33": {
+        "filename": "Hess_C33.mat",
+        "variable": "c33"
+      },
+      "C44": {
+        "filename": "Hess_C44.mat",
+        "variable": "c44"
+      },
+      "__comment_C66": "null makes the builder use C66=C44. C66 is retained for VTI file compatibility and material validation, but does not enter 2-D x-z qP-qSV propagation. Supply the actual C66 for 3-D or SH modelling.",
+      "C66": null,
+      "vp": {
+        "filename": "Hess_vp.mat",
+        "variable": "vp"
+      },
+      "vs": {
+        "filename": "Hess_vs.mat",
+        "variable": "vs"
+      },
+      "epsilon": {
+        "filename": "Hess_epsilon.mat",
+        "variable": "epsilon"
+      },
+      "delta": {
+        "filename": "Hess_delta.mat",
+        "variable": "delta"
+      }
+    }
+  },
+  "grid": {
+    "__comment_grid_spacing": "Input spacing dx/dz in metres before spatial decimation. The current 5.0 values assume 5 m input sampling; original, unresampled 20 ft Hess data would require 6.096 m.",
+    "dx": 5.0,
+    "dz": 5.0
+  },
+  "__comment_mat_compression": "false avoids MAT compression and generally reduces save/load work at the cost of larger files. true compresses MAT arrays.",
+  "mat_compression": false,
+  "pml": {
+    "__comment_pml_thickness": "Split-PML thickness in grid cells on the left, right, top, and bottom boundaries. Require 2*nAB < min(nx,nz) after model transformations.",
+    "nAB": 20,
+    "__comment_reflection_coefficient": "Target reflection coefficient used to design PML damping, not a strict guarantee of measured reflection amplitude. Must be in (0,1).",
+    "reflection_coefficient": 0.0001,
+    "__comment_polynomial_power": "Power of the damping profile measured into PML from its inner edge; 2.0 gives a quadratic profile.",
+    "polynomial_power": 2.0,
+    "__comment_boundary_type": "topABC applies absorption at the top as well as the other boundaries. It is the only boundary type supported by this 2-D solver.",
+    "BCtype": "topABC"
+  },
+  "source": {
+    "__comment_source_position": "Zero-based grid indices in [x,z] order, not physical distances in metres. Place the source inside the active stencil region for forward.order.",
+    "x": 50,
+    "z": 50,
+    "__comment_source_kind": "explosive injects a normal-stress source; dc_xz injects a double-couple source in the x-z plane.",
+    "kind": "explosive",
+    "__comment_time_sampling": "total_time and dt are in seconds. The builder creates floor(total_time/dt+0.5)+1 samples. dt must also satisfy the conservative CFL check.",
+    "total_time": 1.2,
+    "dt": 0.0002,
+    "__comment_ricker_wavelet": "f0 is the Ricker central frequency in hertz; t0 is the wavelet centre delay from t=0 in seconds.",
+    "f0": 30.0,
+    "t0": 0.025,
+    "__comment_source_scale": "Dimensionless wavelet amplitude multiplier. Wavefields and receiver responses scale proportionally in this linear propagation scheme, up to numerical roundoff.",
+    "scale": 10000000.0
+  },
+  "receivers": {
+    "__comment_receiver_line": "line creates a horizontal line at fixed z; x_stop is inclusive. All coordinates are zero-based grid indices. Current settings define one receiver at [30,1]. With forward.order=6, z=1 is in the inactive stencil halo; choose an active receiver position when recording propagated waves.",
+    "mode": "line",
+    "x_start": 30,
+    "x_stop": 30,
+    "x_step": 1,
+    "z": 1
+  },
+  "plot": {
+    "__comment_model_plot": "Controls the model figure generated while building the case. cmap is used for density, velocity, and stiffness; anisotropy_cmap is used for epsilon/delta. Figure width/height are in inches and dpi sets output resolution.",
+    "enabled": true,
+    "filename": "hess_vti2d_model.png",
+    "cmap": "viridis",
+    "anisotropy_cmap": "coolwarm",
+    "dpi": 1200,
+    "fig_width": 17.0,
+    "fig_height": 13.5
+  },
+  "forward": {
+    "__comment_python_executable": "Interpreter path written into run_gpu.ps1 and run_cpu.ps1. Update it for your environment. Direct main.py commands use the interpreter chosen on the command line.",
+    "python_executable": "D:/Anaconda/envs/FWI/python.exe",
+    "__comment_spatial_order": "Staggered-grid spatial finite-difference order: 2, 4, 6, 8, or 10. Higher orders use a wider stencil and more arithmetic. The outer order/2 cells are excluded from propagation.",
+    "order": 6,
+    "__comment_compute_dtype": "Precision of the propagated fields and Triton operations: fp32 or fp64. fp64 uses twice the field storage; its speed depends on the GPU.",
+    "dtype": "fp32",
+    "__comment_triton_block": "Number of elements processed by each Triton program instance; affects GPU execution, not model parameters. Supported values: 64, 128, 256, 512, 1024.",
+    "block": 256,
+    "__comment_record_stride": "Save receivers every record_stride simulation steps. The output sampling interval is dt*record_stride. Must be positive.",
+    "record_stride": 1,
+    "__comment_snapshot_step": "-1 selects the last active step, N-3. Otherwise choose an integer step in [1,N-3]. The stored snapshot time follows (snapshot_step-1)*dt.",
+    "snapshot_step": -1,
+    "__comment_forward_output": "The generated launchers place this relative output directory inside the generated case directory.",
+    "output_dir": "forward_output-6000nt-hess_70pct",
+    "__comment_output_prefix": "Filename prefix for forward MAT/NPZ results, JSON metadata, and figures.",
+    "output_prefix": "hess-70pct-6000nt"
+  }
+}

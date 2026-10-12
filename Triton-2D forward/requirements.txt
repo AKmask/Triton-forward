@@ -1,0 +1,15 @@
+# Package requirements; CPU utilities do not require the GPU backend.
+
+# Numerical arrays and MATLAB-compatible input/output.
+numpy>=1.24
+scipy>=1.10
+
+# Noninteractive model and wavefield figures.
+matplotlib>=3.7
+
+# GPU execution requires a compatible CUDA-enabled PyTorch/Triton environment.
+torch>=2.1
+triton>=3.0
+
+# Test runner for development; not required to execute the solver.
+pytest>=7.4
