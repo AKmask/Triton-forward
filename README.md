@@ -75,6 +75,7 @@ edges and omits intersection lines and a surrounding box. The default field is
 `--plot-colorbar`. Full-grid rendering is the default; `--plot-max-points 161`
 reduces rendering cost. Disable figures with `--no-plots` (2-D) or
 `--no-wavefield-plots` (3-D).
+![The 3D wavefield map under the current configuration](https://www.baidu.com/img/bd_logo1.png)  
 
 ## Caches
 
