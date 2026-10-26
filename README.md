@@ -2,7 +2,7 @@
 
 Staggered-grid velocity-stress solvers for vertically transversely isotropic
 (VTI) media. Both GPU implementations use Triton,
-separate interior/PML regions, and fused Computational kernel updates.
+separate interior/PML regions, and fused computational kernel updates.
 
 | Package | Propagation and backend | Sources | Spatial orders |
 | --- | --- | --- | --- |
@@ -11,7 +11,7 @@ separate interior/PML regions, and fused Computational kernel updates.
 
 ## Setup
 
-GPU runs require a CUDA GPU and compatible CUDA-enabled PyTorch and Triton.
+GPU runs require a NVIDIA GPU and compatible CUDA-enabled PyTorch and Triton.
 From the selected package directory, install its dependencies:
 
 ```bash
@@ -33,9 +33,7 @@ python build_hess_vti2d_case.py --config hess_vti2d_config.json --output-dir gen
 python main.py --case-dir generated_cases/hess_demo --backend gpu --source case --order 6 --dtype fp32 --output-dir outputs_hess
 ```
 
-Use `--backend cpu` for the 2-D reference. Only `topABC` split-PML is supported.
-Move the supplied receiver `[30, 1]` inside the active stencil region before
-recording: its depth index is inactive at order 6.
+Only split-PML is supported.
 
 **3-D:** Edit `layered_vti_config.json` for grid, layers, source, receivers, and
 PML. The supplied case has three layers on a 256 x 256 x 256 grid and uses
