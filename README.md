@@ -1,13 +1,13 @@
 # Triton 2-D and 3-D VTI Forward Modelling
 
 Staggered-grid velocity-stress solvers for vertically transversely isotropic
-(VTI) media. Both GPU implementations use one-dimensional Triton blocks,
+(VTI) media. Both GPU implementations use Triton blocks,
 separate interior/PML regions, and fused split-PML updates.
 
 | Package | Propagation and backend | Sources | Spatial orders |
 | --- | --- | --- | --- |
-| `Triton-2D forward` | x-z qP-qSV; CUDA/Triton or NumPy CPU reference | Explosive or x-z double-couple | 4, 6, 8, 10 |
-| `Triton-3D forward` | 3-D elastic; CUDA/Triton only | `dc1`, `dc2`, or `both` | 4, 6, 8, 10 |
+| `Triton-2D forward` | x-z P-SV; Triton  | Explosive or x-z double-couple | 4, 6, 8, 10 |
+| `Triton-3D forward` | 3-D elastic; Triton  | `dc1`, `dc2`, or `both` | 4, 6, 8, 10 |
 
 ## Setup
 
