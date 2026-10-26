@@ -1,8 +1,8 @@
 # Triton 2-D and 3-D VTI Forward Modelling
 
 Staggered-grid velocity-stress solvers for vertically transversely isotropic
-(VTI) media. Both GPU implementations use Triton blocks,
-separate interior/PML regions, and fused split-PML updates.
+(VTI) media. Both GPU implementations use Triton,
+separate interior/PML regions, and fused Computational kernel updates.
 
 | Package | Propagation and backend | Sources | Spatial orders |
 | --- | --- | --- | --- |
